@@ -1,13 +1,14 @@
-bundle_cache: &bundle_cache
+unix_bundle_cache: &unix_bundle_cache
   bundle_cache:
-    folder: /usr/local/bundle
+    folder: vendor/bundle
     fingerprint_script:
       - echo $CIRRUS_OS
       - ruby -v
       - cat Gemfile
       - cat *.gemspec
-  install_script:
-    - gem update --system --no-document
+  bundle_install_script:
+    ## Fix Bundle cache in CI for macOS
+    - bundle config set --local path 'vendor/bundle'
     - bundle update
 
 env:
@@ -40,8 +41,14 @@ remark_task:
 bundle-audit_task:
   container:
     image: ruby
-  <<: *bundle_cache
+
+  os_prepare_script:
+    - gem install bundler
+
+  <<: *unix_bundle_cache
+
   audit_script: bundle exec bundle-audit check --update
+
   only_if: ($CIRRUS_BRANCH == 'main') ||
     changesInclude(
       '.cirrus.yaml', '.gitignore', 'Gemfile', '*.gemspec'
@@ -50,7 +57,11 @@ bundle-audit_task:
 rubocop_task:
   container:
     image: ruby
-  <<: *bundle_cache
+
+  os_prepare_script:
+    - gem install bundler
+
+  <<: *unix_bundle_cache
 
   lint_script: bundle exec rubocop --format=json --out=rubocop.json
 
@@ -67,18 +78,107 @@ rubocop_task:
     )
 
 rspec_task:
+  name: Test on $CIRRUS_OS
+
   depends_on:
     - remark
     - bundle-audit
     - rubocop
 
-  container:
-    matrix:
-      - image: ruby:2.6
-      - image: ruby:2.7
-      - image: ruby:3.0
-      - image: ruby:3.1
-  <<: *bundle_cache
+  matrix:
+    - container:
+        matrix:
+          - image: ruby:2.6
+          - image: ruby:2.7
+          - image: ruby:3.0
+          - image: ruby:3.1
+          image: jruby:latest
+
+      os_prepare_script:
+        ## For `ps`: https://cirrus-ci.com/task/4518391826612224
+        - apt-get update && apt-get install -y procps
+        - gem install bundler
+
+      <<: *unix_bundle_cache
+
+    - container:
+        image: ghcr.io/graalvm/truffleruby:latest
+      os_prepare_script:
+        ## For `ps`: https://cirrus-ci.com/task/4518391826612224
+        ## For `gem install`: https://github.com/graalvm/container/issues/9
+        - dnf install -y glibc-langpack-en procps
+        - gem install bundler
+      <<: *unix_bundle_cache
+
+    - macos_instance:
+        image: big-sur-base
+
+      env:
+        PATH: "/usr/local/opt/ruby/bin:$PATH"
+
+      os_prepare_script:
+        ## Brew is pre-installed, as described in the CI docs:
+        ## https://cirrus-ci.org/guide/macOS/#list-of-available-images
+        # - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        # - brew install ruby
+
+        ## https://github.com/rubygems/rubygems/issues/2058#issuecomment-342347290
+        - gem install bundler --force
+
+      <<: *unix_bundle_cache
+
+    - windows_container:
+        image: cirrusci/windowsservercore:2019
+      env:
+        ## It's better to pre-define here instead of `refreshenv`:
+        ## https://cirrus-ci.org/guide/windows/#environment-variables
+        RUBY_PATH: C:\tools\ruby
+        MSYS2_PATH: C:\tools\msys2
+        PATH: $MSYS2_PATH;$RUBY_PATH\bin;$PATH
+
+      ruby_cache:
+        folder: C:\tools
+        fingerprint_script:
+          - echo $CIRRUS_OS
+          ## `--limit-output` to try rid off extra information and avoid cache miss:
+          ## https://cirrus-ci.com/task/5913496480120832?logs=ruby#L11-L13
+          - choco search --exact "ruby" --limit-output
+        populate_script:
+          ## Cirrus CI has Chocolatey pre-installed 😍:
+          ## https://cirrus-ci.org/guide/windows/#chocolatey
+
+          ## https://community.chocolatey.org/packages/ruby#notes
+          - choco install msys2 -y --no-progress --params "/NoPath /InstallDir:%MSYS2_PATH%"
+
+          ## Install the latest Ruby with Chocolatey: https://community.chocolatey.org/packages/ruby
+          ## But I don't know what to do with cache and new versions (`upgrade`?)
+          - choco install ruby -y --no-progress --params "/NoPath /InstallDir:%RUBY_PATH%"
+
+          ## ```
+          ## Installing json 2.6.2 with native extensions
+          ## MSYS2 could not be found. Please run 'ridk install'
+          ## or download and install MSYS2 manually from https://msys2.github.io/
+          ## ```
+          - ridk install 3
+
+          - gem install bundler
+
+          ## For `pry-byebug`:
+          ## https://cirrus-ci.com/task/5906822973358080?logs=bundle_install#L15
+          ## I didn't find how to install without dialog, so I'm going to just disable
+          ## this dependency for Windows as well as for JRuby.
+          # - ridk install
+
+      bundle_cache:
+        folder: vendor\bundle
+        fingerprint_script:
+          - echo %CIRRUS_OS%
+          - ruby -v
+          - type Gemfile
+          - type *.gemspec
+      bundle_install_script:
+        - bundle config set --local path 'vendor/bundle'
+        - bundle update
 
   test_script: bundle exec rspec
 
