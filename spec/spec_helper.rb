@@ -2,6 +2,8 @@
 
 require 'pry-byebug'
 
+require 'filewatcher/cli'
+
 require 'simplecov'
 
 if ENV['CI']
@@ -10,5 +12,7 @@ if ENV['CI']
 end
 
 SimpleCov.start
+
+require_relative 'filewatcher/access/spec_helper'
 
 require_relative '../lib/filewatcher/access'
