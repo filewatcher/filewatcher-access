@@ -35,6 +35,6 @@ class Filewatcher
   ## Check for just `CLI` can fail because of CLI gemspec requirement with only `constants`
   if self::CLI.const_defined?(:Command, false)
     self::CLI::Command.option %w[-a --access], :flag, 'react to access (read) events',
-      default: false
+      default: true
   end
 end

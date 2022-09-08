@@ -26,7 +26,7 @@ describe Filewatcher::Access::CLI do
 
   let(:dumper) { :watched }
   let(:dumper_args) { [] }
-  let(:options) { { plugins: 'access', access: true } }
+  let(:options) { { plugins: 'access' } }
   let(:watch_run) do
     shell_watch_run_class.new(
       filename: filename,
