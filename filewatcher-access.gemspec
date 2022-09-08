@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   DESC
   spec.license = 'MIT'
 
-  github_uri = "https://github.com/AlexWayfer/#{spec.name}"
+  github_uri = "https://github.com/filewatcher/#{spec.name}"
 
   spec.homepage = github_uri
 

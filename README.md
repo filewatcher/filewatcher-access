@@ -1,12 +1,12 @@
 # Filewatcher Access
 
-[![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/AlexWayfer/filewatcher-access?style=flat-square)](https://cirrus-ci.com/github/AlexWayfer/filewatcher-access)
-[![Codecov branch](https://img.shields.io/codecov/c/github/AlexWayfer/filewatcher-access/main.svg?style=flat-square)](https://codecov.io/gh/AlexWayfer/filewatcher-access)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/AlexWayfer/filewatcher-access.svg?style=flat-square)](https://codeclimate.com/github/AlexWayfer/filewatcher-access)
-[![Depfu](https://img.shields.io/depfu/AlexWayfer/filewatcher-access?style=flat-square)](https://depfu.com/repos/github/AlexWayfer/filewatcher-access)
-[![Inline docs](https://inch-ci.org/github/AlexWayfer/filewatcher-access.svg?branch=main)](https://inch-ci.org/github/AlexWayfer/filewatcher-access)
+[![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/filewatcher/filewatcher-access?style=flat-square)](https://cirrus-ci.com/github/filewatcher/filewatcher-access)
+[![Codecov branch](https://img.shields.io/codecov/c/github/filewatcher/filewatcher-access/main.svg?style=flat-square)](https://codecov.io/gh/filewatcher/filewatcher-access)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/filewatcher/filewatcher-access.svg?style=flat-square)](https://codeclimate.com/github/filewatcher/filewatcher-access)
+[![Depfu](https://img.shields.io/depfu/filewatcher/filewatcher-access?style=flat-square)](https://depfu.com/repos/github/filewatcher/filewatcher-access)
+[![Inline docs](https://inch-ci.org/github/filewatcher/filewatcher-access.svg?branch=main)](https://inch-ci.org/github/filewatcher/filewatcher-access)
 [![Gem](https://img.shields.io/gem/v/filewatcher-access.svg?style=flat-square)](https://rubygems.org/gems/filewatcher-access)
-[![License](https://img.shields.io/github/license/AlexWayfer/filewatcher-access.svg?style=flat-square)](LICENSE.txt)
+[![License](https://img.shields.io/github/license/filewatcher/filewatcher-access.svg?style=flat-square)](LICENSE.txt)
 
 Add `access` event for Filewatcher (where it's supported).
 
@@ -51,7 +51,7 @@ See how it works [here](https://github.com/AlexWayfer/gem_toys#release).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on [GitHub](https://github.com/AlexWayfer/filewatcher-access).
+Bug reports and pull requests are welcome on [GitHub](https://github.com/filewatcher/filewatcher-access).
 
 ## License
 
