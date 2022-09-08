@@ -36,7 +36,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'filewatcher-cli', '~> 1.0.0.beta3', '< 2'
 
-  spec.add_development_dependency 'pry-byebug', '~> 3.9'
+  unless RUBY_PLATFORM == 'java' || Gem.win_platform?
+    spec.add_development_dependency 'pry-byebug', '~> 3.9'
+  end
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'bundler-audit', '~> 0.9.0'

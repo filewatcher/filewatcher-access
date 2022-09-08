@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+require 'pry-byebug' unless RUBY_PLATFORM == 'java' || Gem.win_platform?
 
 require 'filewatcher/cli'
 
