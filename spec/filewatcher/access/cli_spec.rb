@@ -37,8 +37,10 @@ describe Filewatcher::Access::CLI do
     )
   end
 
+  ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
+  let(:expected_dump_file_existence) { !Gem.win_platform? }
+
   let(:dump_file_content) { File.read(shell_watch_run_class::DUMP_FILE) }
-  let(:expected_dump_file_existence) { true }
   let(:expected_dump_file_content) { 'watched' }
 
   shared_examples 'dump file existence' do
@@ -50,10 +52,13 @@ describe Filewatcher::Access::CLI do
   end
 
   shared_examples 'dump file content' do
-    describe 'file content' do
-      subject { dump_file_content }
+    ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
+    unless Gem.win_platform?
+      describe 'file content' do
+        subject { dump_file_content }
 
-      it { is_expected.to eq expected_dump_file_content }
+        it { is_expected.to eq expected_dump_file_content }
+      end
     end
   end
 
