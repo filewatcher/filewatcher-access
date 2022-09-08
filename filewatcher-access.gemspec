@@ -32,9 +32,9 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.6', '< 4'
 
-  spec.add_runtime_dependency 'filewatcher', '>= 2.0.0.beta6', '< 3'
+  spec.add_runtime_dependency 'filewatcher', '~> 2.0'
 
-  spec.add_development_dependency 'filewatcher-cli', '~> 1.0.0.beta3', '< 2'
+  spec.add_development_dependency 'filewatcher-cli', '~> 1.0'
 
   unless RUBY_PLATFORM == 'java' || Gem.win_platform?
     spec.add_development_dependency 'pry-byebug', '~> 3.9'
