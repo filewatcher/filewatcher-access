@@ -221,11 +221,11 @@ rspec_task:
         folder: codecov
         fingerprint_script:
           - $ProgressPreference = 'SilentlyContinue'
-          - Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe.SHA256SUM
+          - Invoke-WebRequest -UseBasicParsing -Uri https://uploader.codecov.io/latest/windows/codecov.exe.SHA256SUM
         populate_script:
           - md codecov
           - $ProgressPreference = 'SilentlyContinue'
-          - Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov\uploader.exe
+          - Invoke-WebRequest -UseBasicParsing -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov\uploader.exe
 
       codecov_script: codecov\uploader.exe
 
