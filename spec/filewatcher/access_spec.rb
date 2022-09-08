@@ -45,6 +45,15 @@ RSpec.describe Filewatcher::Access do
       watch_run.run
     end
 
-    it { is_expected.to eq [{ watch_run.filename => :accessed }] }
+    let(:expected_result) do
+      ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
+      if Gem.win_platform?
+        []
+      else
+        [{ watch_run.filename => :accessed }]
+      end
+    end
+
+    it { is_expected.to eq expected_result }
   end
 end
