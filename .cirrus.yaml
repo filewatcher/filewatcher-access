@@ -123,6 +123,9 @@ rspec_task:
     - container:
         image: ghcr.io/graalvm/truffleruby:latest
 
+      env:
+        CODECOV_OS: linux
+
       os_prepare_script:
         ## For `ps`: https://cirrus-ci.com/task/4518391826612224
         ## For `gem install`: https://github.com/graalvm/container/issues/9
