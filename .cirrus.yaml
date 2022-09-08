@@ -168,7 +168,7 @@ rspec_task:
         ## https://cirrus-ci.org/guide/windows/#environment-variables
         RUBY_PATH: C:\tools\ruby
         MSYS2_PATH: C:\tools\msys2
-        PATH: $Env:MSYS2_PATH;$Env:RUBY_PATH\bin;$Env:PATH
+        PATH: $MSYS2_PATH;$RUBY_PATH\bin;$PATH
 
       ruby_cache:
         folder: C:\tools
