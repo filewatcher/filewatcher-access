@@ -163,6 +163,7 @@ rspec_task:
     - windows_container:
         image: cirrusci/windowsservercore:2019
       env:
+        CIRRUS_SHELL: powershell
         ## It's better to pre-define here instead of `refreshenv`:
         ## https://cirrus-ci.org/guide/windows/#environment-variables
         RUBY_PATH: C:\tools\ruby
