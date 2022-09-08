@@ -35,7 +35,15 @@ gem install filewatcher-access
 ```ruby
 require 'filewatcher/access'
 
-# TODO
+Filewatcher.new('lib/').watch do |filename, event|
+  ## there will be `accessed` event
+end
+```
+
+Also you can use it with [CLI](https://github.com/filewatcher/filewatcher-cli):
+
+```sh
+$ filewatcher -p access '**/*'
 ```
 
 ## Development
