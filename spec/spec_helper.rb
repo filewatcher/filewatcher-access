@@ -16,3 +16,7 @@ SimpleCov.start
 require_relative 'filewatcher/access/spec_helper'
 
 require_relative '../lib/filewatcher/access'
+
+RSpec.configure do |config|
+  config.example_status_persistence_file_path = 'examples.txt'
+end
