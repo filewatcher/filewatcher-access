@@ -33,24 +33,4 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.6', '< 4'
 
   spec.add_runtime_dependency 'filewatcher', '~> 2.1'
-
-  spec.add_development_dependency 'filewatcher-cli', '~> 1.1'
-
-  unless RUBY_PLATFORM == 'java' || Gem.win_platform?
-    spec.add_development_dependency 'pry-byebug', '~> 3.9'
-  end
-
-  spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'bundler-audit', '~> 0.9.0'
-
-  spec.add_development_dependency 'gem_toys', '~> 0.12.0'
-  spec.add_development_dependency 'toys', '~> 0.13.0'
-
-  spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'simplecov', '~> 0.21.0'
-  spec.add_development_dependency 'simplecov-cobertura', '~> 2.1'
-
-  spec.add_development_dependency 'rubocop', '~> 1.56.3'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.0'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.0'
 end
