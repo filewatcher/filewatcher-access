@@ -19,12 +19,12 @@ end
 
 group :development, :toys do
   gem 'gem_toys', '~> 0.12.0'
-  gem 'toys', '~> 0.13.0'
+  gem 'toys', '~> 0.14.7'
 end
 
 group :development, :test do
   gem 'rspec', '~> 3.9'
-  gem 'simplecov', '~> 0.21.0'
+  gem 'simplecov', '~> 0.22.0'
   gem 'simplecov-cobertura', '~> 2.1'
 end
 

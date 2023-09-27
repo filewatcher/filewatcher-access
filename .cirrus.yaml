@@ -116,7 +116,7 @@ rspec_task:
       <<: *unix_codecov
 
     - container:
-        image: ghcr.io/graalvm/truffleruby:latest
+        image: ghcr.io/graalvm/truffleruby-community:latest
 
       env:
         CODECOV_OS: linux
