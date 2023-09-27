@@ -135,7 +135,7 @@ rspec_task:
       <<: *unix_codecov
 
     - macos_instance:
-        image: big-sur-base
+        image: ghcr.io/cirruslabs/macos-ventura-base:latest
 
       env:
         PATH: "/usr/local/opt/ruby/bin:$PATH"
