@@ -6,8 +6,8 @@ class Filewatcher
       module WatchRun
         include Filewatcher::SpecHelper::WatchRun
 
-        ACTIONS = ACTIONS.merge(
-          access: -> { File.read @filename }
+        CHANGES = CHANGES.merge(
+          access: ->(change_file, *_args) { File.read change_file }
         )
       end
     end

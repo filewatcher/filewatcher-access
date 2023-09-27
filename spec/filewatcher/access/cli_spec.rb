@@ -17,20 +17,39 @@ describe Filewatcher::Access::CLI do
     end
   end
 
-  let(:filename) { 'tmp_file.txt' }
-  let(:action) { :access }
+  def transform_spec_files(file)
+    shell_watch_run_class.transform_spec_files(file)
+  end
 
   let(:shell_watch_run_class) { Filewatcher::Access::CLI::SpecHelper::ShellWatchRun }
   let(:tmp_dir) { shell_watch_run_class::TMP_DIR }
+  let(:tmp_files_dir) { shell_watch_run_class::TMP_FILES_DIR }
   let(:logger) { Filewatcher::SpecHelper.logger }
+
+  let(:raw_file_name) { 'tmp_file.txt' }
+  let(:initial_files) { { raw_file_name => {} } }
+
+  let(:changes) do
+    files = Array(initial_files.keys)
+    files << raw_file_name if files.empty?
+    files.to_h do |file|
+      [transform_spec_files(file), { event: change_event, directory: change_directory }]
+    end
+  end
+
+  let(:change_event) { :access }
+  let(:change_directory) { false }
+
+  let(:watch_path) { "#{tmp_files_dir}/**/*" }
 
   let(:dumper) { :watched }
   let(:dumper_args) { [] }
   let(:options) { { plugins: 'access' } }
   let(:watch_run) do
     shell_watch_run_class.new(
-      filename: filename,
-      action: action,
+      watch_path,
+      initial_files: initial_files,
+      changes: changes,
       dumper: dumper,
       options: options,
       dumper_args: dumper_args
@@ -77,14 +96,16 @@ describe Filewatcher::Access::CLI do
     let(:dumper) { :env }
 
     let(:expected_dump_file_content) do
-      %W[
-        #{tmp_dir}/#{filename}
-        #{filename}
-        accessed
-        #{tmp_dir}
-        #{tmp_dir}/#{filename}
-        spec/tmp/#{filename}
-      ].join(', ')
+      [
+        transform_spec_files(raw_file_name),
+        raw_file_name,
+        'accessed',
+        transform_spec_files(nil),
+        transform_spec_files(raw_file_name),
+        "#{tmp_files_dir}/#{raw_file_name}",
+
+        nil ## empty string at the end of file
+      ].join("\n")
     end
 
     before do

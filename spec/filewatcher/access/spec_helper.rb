@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'filewatcher/spec_helper'
+require 'filewatcher/cli/spec_helper'
 
 require_relative 'spec_helper/ruby_watch_run'
 

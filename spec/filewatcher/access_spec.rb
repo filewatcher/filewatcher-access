@@ -20,25 +20,47 @@ RSpec.describe Filewatcher::Access do
     Filewatcher.new(path, options.merge(logger: logger))
   end
 
-  let(:tmp_dir) { Filewatcher::Access::SpecHelper::WatchRun::TMP_DIR }
+  def transform_spec_files(file)
+    ruby_watch_run_class.transform_spec_files(file)
+  end
+
+  let(:ruby_watch_run_class) { Filewatcher::Access::SpecHelper::RubyWatchRun }
+
+  let(:tmp_dir) { ruby_watch_run_class::TMP_DIR }
+  let(:tmp_files_dir) { ruby_watch_run_class::TMP_FILES_DIR }
   let(:logger) { Filewatcher::Access::SpecHelper.logger }
 
-  let(:filename) { 'tmp_file.txt' }
-  let(:action) { :access }
+  let(:raw_file_name) { 'tmp_file.txt' }
+  let(:initial_files) { { raw_file_name => {} } }
+
+  let(:change_event) { :access }
+  let(:change_directory) { false }
+
+  let(:changes) do
+    files = Array(initial_files.keys)
+    files << raw_file_name if files.empty?
+    files.to_h do |file|
+      [transform_spec_files(file), { event: change_event, directory: change_directory }]
+    end
+  end
+
+  let(:filewatcher_files) { File.expand_path("#{tmp_files_dir}/**/*") }
 
   let(:filewatcher) do
     initialize_filewatcher(
-      File.join(tmp_dir, '**', '*'), interval: 0.2, immediate: false
+      filewatcher_files, interval: 0.2, immediate: false
     )
   end
 
   let(:watch_run) do
-    Filewatcher::Access::SpecHelper::RubyWatchRun.new(
-      filename: filename, filewatcher: filewatcher, action: action
+    ruby_watch_run_class.new(
+      initial_files: initial_files, filewatcher: filewatcher, changes: changes
     )
   end
 
-  let(:processed_files) { watch_run.processed.flat_map(&:keys) }
+  let(:result_transformed_filename) do
+    transform_spec_files(initial_files.any? ? initial_files.keys.first : raw_file_name)
+  end
 
   describe '#watch' do
     before do
@@ -50,7 +72,7 @@ RSpec.describe Filewatcher::Access do
       if Gem.win_platform?
         []
       else
-        [{ watch_run.filename => :accessed }]
+        [{ result_transformed_filename => :accessed }]
       end
     end
 

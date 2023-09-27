@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'filewatcher/cli/spec_helper'
+require 'filewatcher/cli/spec_helper/shell_watch_run'
 
 require_relative 'watch_run'
 
