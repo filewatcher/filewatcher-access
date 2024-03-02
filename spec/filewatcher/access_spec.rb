@@ -11,7 +11,7 @@ RSpec.describe Filewatcher::Access do
     logger.debug "FileUtils.rm_r #{tmp_dir}"
     FileUtils.rm_r tmp_dir
 
-    Filewatcher::Access::SpecHelper.wait seconds: 5, interval: 0.2 do
+    described_class::SpecHelper.wait seconds: 5, interval: 0.2 do
       !File.exist?(tmp_dir)
     end
   end
@@ -24,11 +24,11 @@ RSpec.describe Filewatcher::Access do
     ruby_watch_run_class.transform_spec_files(file)
   end
 
-  let(:ruby_watch_run_class) { Filewatcher::Access::SpecHelper::RubyWatchRun }
+  let(:ruby_watch_run_class) { described_class::SpecHelper::RubyWatchRun }
 
   let(:tmp_dir) { ruby_watch_run_class::TMP_DIR }
   let(:tmp_files_dir) { ruby_watch_run_class::TMP_FILES_DIR }
-  let(:logger) { Filewatcher::Access::SpecHelper.logger }
+  let(:logger) { described_class::SpecHelper.logger }
 
   let(:raw_file_name) { 'tmp_file.txt' }
   let(:initial_files) { { raw_file_name => {} } }

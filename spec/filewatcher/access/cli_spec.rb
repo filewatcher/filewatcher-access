@@ -21,7 +21,7 @@ describe Filewatcher::Access::CLI do
     shell_watch_run_class.transform_spec_files(file)
   end
 
-  let(:shell_watch_run_class) { Filewatcher::Access::CLI::SpecHelper::ShellWatchRun }
+  let(:shell_watch_run_class) { described_class::SpecHelper::ShellWatchRun }
   let(:tmp_dir) { shell_watch_run_class::TMP_DIR }
   let(:tmp_files_dir) { shell_watch_run_class::TMP_FILES_DIR }
   let(:logger) { Filewatcher::SpecHelper.logger }
