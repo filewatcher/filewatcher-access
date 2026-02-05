@@ -56,28 +56,28 @@ describe Filewatcher::Access::CLI do
     )
   end
 
-  ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
-  let(:expected_dump_file_existence) { !Gem.win_platform? }
-
   let(:dump_file_content) { File.read(shell_watch_run_class::DUMP_FILE) }
   let(:expected_dump_file_content) { 'watched' }
 
-  shared_examples 'dump file existence' do
+  shared_examples 'creating dump file' do
     describe 'file existence' do
       subject { File.exist?(shell_watch_run_class::DUMP_FILE) }
 
-      it { is_expected.to be expected_dump_file_existence }
+      it { is_expected.to be true }
+    end
+
+    describe 'file content' do
+      subject { File.read(shell_watch_run_class::DUMP_FILE) }
+
+      it { is_expected.to eq expected_dump_file_content }
     end
   end
 
-  shared_examples 'dump file content' do
-    ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
-    unless Gem.win_platform?
-      describe 'file content' do
-        subject { dump_file_content }
+  shared_examples 'not creating dump file' do
+    describe 'file existence' do
+      subject { File.exist?(shell_watch_run_class::DUMP_FILE) }
 
-        it { is_expected.to eq expected_dump_file_content }
-      end
+      it { is_expected.to be false }
     end
   end
 
@@ -112,8 +112,11 @@ describe Filewatcher::Access::CLI do
       watch_run.run
     end
 
-    include_examples 'dump file existence'
-
-    include_examples 'dump file content'
+    ## https://github.com/filewatcher/filewatcher/issues/55#issuecomment-310889250
+    if Gem.win_platform?
+      it_behaves_like 'not creating dump file'
+    else
+      it_behaves_like 'creating dump file'
+    end
   end
 end

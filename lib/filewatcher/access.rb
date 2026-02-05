@@ -14,12 +14,12 @@ class Filewatcher
       extend(
         Module.new do
           def populate_stats(stats)
-            stats = super(stats) if defined?(super)
+            stats = super if defined?(super)
             stats.insert(stats.index(:mtime) + 1, :atime)
           end
 
           def populate_subtractions(hash)
-            hash = super(hash) if defined?(super)
+            hash = super if defined?(super)
             hash.to_a.insert(
               hash.keys.index(:updated) + 1,
               [:accessed, ->(other) { atime && atime > other.atime }]
