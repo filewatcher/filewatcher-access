@@ -5,10 +5,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'filewatcher-cli', '~> 1.1'
-
-  # gem 'filewatcher', path: '../filewatcher', require: false
-  # gem 'filewatcher-cli', path: '../filewatcher-cli', require: false
+  gem 'filewatcher-cli', '~> 2.0'
 
   gem 'pry-byebug', '~> 3.9' unless RUBY_PLATFORM == 'java' || Gem.win_platform?
 end
