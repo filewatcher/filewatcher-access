@@ -17,7 +17,7 @@ RSpec.describe Filewatcher::Access do
   end
 
   def initialize_filewatcher(path, options = {})
-    Filewatcher.new(path, options.merge(logger: logger))
+    Filewatcher.new(path, options.merge(logger:))
   end
 
   def transform_spec_files(file)
@@ -53,9 +53,7 @@ RSpec.describe Filewatcher::Access do
   end
 
   let(:watch_run) do
-    ruby_watch_run_class.new(
-      initial_files: initial_files, filewatcher: filewatcher, changes: changes
-    )
+    ruby_watch_run_class.new(initial_files:, filewatcher:, changes:)
   end
 
   let(:result_transformed_filename) do

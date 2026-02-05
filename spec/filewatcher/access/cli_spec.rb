@@ -48,11 +48,11 @@ describe Filewatcher::Access::CLI do
   let(:watch_run) do
     shell_watch_run_class.new(
       watch_path,
-      initial_files: initial_files,
-      changes: changes,
-      dumper: dumper,
-      options: options,
-      dumper_args: dumper_args
+      initial_files:,
+      changes:,
+      dumper:,
+      options:,
+      dumper_args:
     )
   end
 
